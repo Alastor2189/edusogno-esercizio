@@ -34,12 +34,17 @@ class User {
     $password = @sha1($password);
     $query = @mysql_query("SELECT id FROM utenti WHERE (email = '$emailUser' OR nome='$emailUser') AND password = '$password'") or die('Errore: ' . mysql_error());
     $count = @mysql_num_rows($query);
+
     if ($count == 1) {
+
         $result = @mysql_fetch_object($query);
         $_SESSION['login'] = true;
         $_SESSION['id'] = $risultato->id;
+
         return true;
+
         }else{
+
         return false;
     }
     }
@@ -56,7 +61,9 @@ class User {
           if(isset($_SESSION['login']))
           {
             return $_SESSION['login'];
+
           }else{
+            
             return false;
           }
         }
