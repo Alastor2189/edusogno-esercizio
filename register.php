@@ -1,39 +1,32 @@
 <?php
-include_once __DIR__ . 'user.php';
+include __DIR__ . 'user.php';
 $obj = new User();
 # chiamata al metodo per la verifica della sessione
 if ($obj->verifySession())
 {
   #redirect in caso di esito negativo
-  @header("location:area_riservata.php");
+  @header("location:areaPersonal.php");
 }
 # chiamata al metodo per la registrazione
 if ($_SERVER["REQUEST_METHOD"] == "POST") 
 {
-  $registered = $obj->register(htmlentities($_POST['nome'], ENT_QUOTES), htmlentities($_POST['nome'], ENT_QUOTES), htmlentities($_POST['password'], ENT_QUOTES), htmlentities($_POST['email'], ENT_QUOTES));
+  $registered = $obj->register(htmlentities($_POST['nome'], ENT_QUOTES), htmlentities($_POST['cognome'], ENT_QUOTES), htmlentities($_POST['password'], ENT_QUOTES), htmlentities($_POST['email'], ENT_QUOTES));
   # controllo sull'esito del metodo
   if ($registrato) {
     # notifica in caso di esito positivo
-    echo 'Registrazione effettuata con successo <a href="autenticazione.php">ora puoi loggarti</a>.';
+    echo 'Registrazione effettuata con successo <a href="login.php">ora puoi loggarti</a>.';
   }else{
-    # notifica in caso di esito negativo
     echo 'Registrazione non effettuata correttamente.';
   }
 }
+
+include __DIR__ . '/layout/header.php';
 # form per l'iscrizione
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <main>
+
+<main>
     <div> <h2> </h2></div>
     <div class="container-form">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -57,8 +50,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     <button type="submit" name="registrati">REGISTRATI</button>
                 </div>
 
-                <label><a href="login.php" title="Login">Sei già registrato? Fai qui il Login</a></label>
+                <label><a href="index.php" title="Login">Sei già registrato? Fai qui il Login</a></label>
             </form>
-    </main>
-</body>
-</html>
+</main>
+
+<?php
+    include __DIR__ . '/layout/footer.php';
+?>

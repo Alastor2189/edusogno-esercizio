@@ -20,7 +20,7 @@ class User {
                 $query = @mysql_query("SELECT id FROM utenti WHERE nome = '$name' OR email = '$email'") or die('Errore: ' . mysql_error());
                 $count = @mysql_num_rows($query); 
             if ($count == 0)    {
-                $result = @mysql_query("INSERT INTO utenti(nome, password, surname, email) VALUES ('$name', '$password','$surname','$email')") or die('Errore: ' .mysql_error());
+                $result = @mysql_query("INSERT INTO utenti(nome, password,  cognome, email) VALUES ('$name', '$password','$surname','$email')") or die('Errore: ' .mysql_error());
                 return $result;
                 }else{
                     return false;
@@ -41,12 +41,19 @@ class User {
         $_SESSION['login'] = true;
         $_SESSION['id'] = $risultato->id;
 
-        return true;
+            return true;
 
         }else{
 
-        return false;
+            return false;
+        }
     }
+
+    public function eventUser($email) {
+        $email = $_GET['email'];
+        $query = "SELECT * FROM `eventi` WHERE `attendees` LIKE '%$email%'";
+        $response = mysqli_query($mysql, $query);
+        $eventUser = $response->fetch_all(MYSQLI_ASSOC);
     }
 
     public function userLogged($id) 
@@ -63,7 +70,7 @@ class User {
             return $_SESSION['login'];
 
           }else{
-            
+
             return false;
           }
         }
